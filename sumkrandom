@@ -29,7 +29,7 @@ void quicksort(int a[], int l, int r) {
 	}
 }
 void incouple(int i, int sum) {
-	if (sum == k && !b.empty()) { // Tránh in ra tập hợp rỗng
+	if (sum == k && !b.empty()) { // Tránh in ra tập hợp rỗng dành cho tập bất kì
 		cout << "{ ";
 		for (auto x : b) cout << x << " ";
 		cout << "}" << endl;
@@ -40,6 +40,23 @@ void incouple(int i, int sum) {
 		b.push_back(a[j]);
 		incouple(j + 1, sum + a[j]);
 		b.pop_back(); // Backtracking
+	}
+}
+void incouple(int i, int sum) {
+	if (b.size() == 3 && sum == k) {//chỗ 3 thay số bất kì là ra tập hợp với lượng đó
+		for (auto x : b) {
+			cout << x << " ";
+		}
+		cout << endl;
+		return;
+	}
+	else {
+		for (int j = i; j < n; j++) {
+			if (j > i && a[j - 1] == a[j])break;
+			b.push_back(a[j]);
+			incouple(j + 1, sum + a[j]);
+			b.pop_back();
+		}
 	}
 }
 
