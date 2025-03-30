@@ -1,1 +1,32 @@
+//Tìm các đường đi để đến góc cuối
+#include<iostream>
+using namespace std;
+int a[100][100], n;
+string str;
+void destination(int i, int j, string str) {
+	if (i == n && j == n) {
+		cout << str;
+		cout << endl;
+	}
+	if (i + 1 <= n && a[i + 1][j] == 1) {
+		str += "D";
+		destination(i + 1, j, str);
+		str.pop_back();
+	}
+	if (j + 1 <= n && a[i][j + 1] == 1) {
+		str += "R";
+		destination(i, j + 1, str);
+		str.pop_back();
+	}
 
+}
+int main() {
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			cin >> a[i][j];
+		}
+	}
+	destination(1, 1, str);
+	return 0;
+}
