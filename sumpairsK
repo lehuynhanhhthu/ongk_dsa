@@ -1,0 +1,50 @@
+//In ra các cặp có tổng bằng K
+#include<iostream>
+using namespace std;
+int quick(int a[], int l, int r) {
+	int pivot = a[l];
+	int i = l - 1;
+	int j = r + 1;
+	while (1) {
+		do {
+			i++;
+		} while (a[i] < pivot);
+		do {
+			j--;
+		} while (a[j] > pivot);
+		if (i < j)swap(a[i], a[j]);
+		else { return j; }
+	}
+}
+void quicksort(int a[], int l, int r) {
+	if (l >= r)return;
+	else {
+		int p = quick(a, l, r);
+		quicksort(a, l, p);
+		quicksort(a, p + 1, r);
+	}
+}
+void incouple(int a[], int n, int k) {
+	int c = 0;
+	for (int i = 0; i < n; i++) {
+		int x = k - a[i];
+		for (int j = i + 1; j < n; j++) {
+			if (a[j] == x) {
+				cout << "[" << a[i] << "]" << " " << "[" << a[j] << "]";
+				c++;
+				cout << endl;
+			}
+		}
+	}
+	cout << "The number of pairs is " << c;
+}
+int main() {
+	int n,k, a[100];
+	cin >> n >> k;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	quicksort(a, 0, n - 1);
+	incouple(a, n, k);
+	return 0;
+}
