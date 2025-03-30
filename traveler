@@ -1,0 +1,41 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int d[100][100];
+int X[100];
+int n, c = 0, mincost = 1e9;
+int visited[100] = { 0 };
+void nhap() {
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			cin >> d[i][j];
+		}
+   }
+}
+void Tryy(int i) {
+	for (int j = 2; j <= n; j++) {
+		if (visited[j] == 0) {
+			X[i] = j;
+			c += d[X[i - 1]][X[i]];
+			visited[j] = 1;
+			if (i == n) {
+				mincost = min(mincost, c + d[X[n]][1]);
+			}
+			else {
+				Tryy(i + 1);
+				
+
+			}
+			visited[j] = 0;
+			c -= d[X[i - 1]][X[i]];
+		}
+	}
+}
+int main() {
+	cin >> n;
+	nhap();
+	X[1] = 1; visited[1] = 1;
+	Tryy(2);
+	cout << mincost;
+	return 0;
+}
