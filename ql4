@@ -1,0 +1,57 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+vector<int>vt;
+int a[100], n, t;
+int quick(int a[], int l, int r) {
+	int pivot = a[l];
+	int i = l - 1;
+	int j = r + 1;
+	while (1) {
+		do {
+			i++;
+		} while (a[i] < pivot);
+		do {
+			j--;
+		} while (a[j] > pivot);
+		if (i <j)swap(a[i], a[j]);
+		else return j;
+	}
+}
+void quicksort(int a[], int l, int r) {
+	if (l >= r)return;
+	else {
+		int p = quick(a, l, r);
+		quicksort(a, l, p);
+		quicksort(a, p + 1,r);
+	}
+}
+void sumK(int i, int sum) {
+	if (!vt.empty() && sum == t) {
+		cout << "[";
+		for (auto x : vt) {
+			cout << x << " ";
+		}
+		cout << "]";
+		cout << endl;
+		return;
+	}
+	//else if (i >= n)return;
+	else {
+		for (int j = i; j < n; j++) {
+			vt.push_back(a[j]);
+			sumK(j + 1, sum + a[j]);
+			vt.pop_back();
+			
+		}
+	}
+}
+int main() {
+	cin >> n >> t;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	quicksort(a, 0, n - 1);
+	sumK(0, 0);
+	return 0;
+}
