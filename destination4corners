@@ -1,0 +1,55 @@
+//Tìm các đường đi để đến góc cuối 4 phương
+#include<iostream>
+using namespace std;
+int a[100][100], n;
+string str;
+void destination(int i, int j, string str) {
+	if (i == n && j == n) {
+		cout << str;
+		cout << endl;
+	}
+	if (i + 1 <= n && a[i + 1][j] == 1) {
+		str += "D";
+		a[i + 1][j] = 0;
+		destination(i + 1, j, str);
+		a[i + 1][j] = 1;
+		str.pop_back();
+	}
+	
+	
+	if (j - 1 >= 1 && a[i][j - 1] == 1) {
+		str += "L";
+		a[i][j - 1] = 0;
+		destination(i, j - 1, str);
+		a[i][j - 1] = 1;
+		str.pop_back();
+
+	}
+	if (j + 1 <= n && a[i][j + 1] == 1) {
+		str += "R";
+		a[i][j + 1] = 0;
+		destination(i, j + 1, str);
+		a[i][j + 1] = 1;
+		str.pop_back();
+	}
+	if (i - 1 >= 1 && a[i - 1][j] == 1) {
+		str += "U";
+		a[i - 1][j] = 0;
+		destination(i - 1, j, str);
+		a[i - 1][j] = 1;
+		str.pop_back();
+
+	}
+
+}
+int main() {
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			cin >> a[i][j];
+		}
+	}
+	a[0][0] = 0;
+	destination(1, 1, str);
+	return 0;
+}
