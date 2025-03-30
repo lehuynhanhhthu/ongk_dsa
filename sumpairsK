@@ -38,6 +38,25 @@ void incouple(int a[], int n, int k) {
 	}
 	cout << "The number of pairs is " << c;
 }
+void incouple(int a[], int n, int k) {//Nếu ít hoặc không có các số khác nhau
+
+	int l = 0;
+	int r = n - 1;
+	int pairs = 0;
+	while (l < r) {
+		int sum = a[l] + a[r];
+		if (sum == k) {
+			cout << "[" << a[l] << " " << a[r] << "]";
+			l++;
+			r--;
+			pairs++;
+		}
+		else if (sum < k) {
+			l++;
+		}
+		else return;
+	}
+}
 int main() {
 	int n,k, a[100];
 	cin >> n >> k;
