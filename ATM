@@ -1,0 +1,60 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+void merger(int a[], int l, int m, int r) {
+	vector<int>vt1 (a + l, a + m + 1);
+	vector<int>vt2 (a + m + 1, a + r+1);
+	int i = 0, j = 0;
+	while (i < vt1.size() && j < vt2.size()) {
+		if (vt1[i] <= vt2[j]) {
+			a[l] = vt1[i];
+			l++;
+			i++;
+		}
+		else if (vt1[i] > vt2[j]) {
+			a[l] = vt2[j];
+			j++;
+			l++;
+		}
+		
+	}
+	while (i < vt1.size()) {
+		a[l] = vt1[i];
+		i++;
+		l++;
+	}
+	while (j < vt2.size()) {
+		a[l] = vt2[j];
+		j++;
+		l++;
+	}
+}
+void megersort(int a[], int l, int r) {
+	if (l >= r)return;
+	else {
+		int m = (l + r) / 2;
+		megersort(a, l, m);
+		megersort(a, m + 1, r);
+		merger(a, l, m, r);
+	}
+}
+int a[100], n, k;
+int mincount = 1e9;
+void tryy(int i,int sum,int count) {
+	if (sum == k) {
+		mincount = min(mincount, count);
+		return;
+	}
+	else if (i >= n || count >= n || sum > k)return;
+	tryy(i + 1, sum + a[i], count + 1);
+	tryy(i + 1, sum, count);
+}
+int main() {
+	cin >> n >> k;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	megersort(a, 0, n - 1);
+	tryy(0, 0, 0);
+	cout << mincount; return 0;
+}
