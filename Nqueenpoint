@@ -1,0 +1,70 @@
+#include<iostream>
+using namespace std;
+int X[100], Y[100], CC[100], CP[100], n;
+int a[100][100], den = 0, sum = 0;
+int diem[100]; int idex = 0;
+void in() {
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			a[i][j] = 0;
+		}
+	}
+	for (int i = 1; i <= n; i++) {
+		 
+			a[i][X[i]] = 1;
+		
+	}
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			cout << a[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+void Tryy(int i) {
+	for (int j = 1; j <= n; j++) {
+		if (Y[j] == 1 && CC[i - j + n] == 1 && CP[i + j - 1] == 1) {
+			X[i] = j;
+			Y[j] = CC[i - j + n] = CP[i + j - 1] = 0;
+			sum += a[i][j];
+			if (i == n) {
+				diem[idex++] = sum;
+				
+				/*in();
+				den++;*/
+			}
+			else {
+				Tryy(i + 1);
+			}
+			
+			sum -= a[i][j];
+			Y[j] = CC[i - j + n] = CP[i + j - 1] = 1;
+			
+		}
+	}
+}
+int main() {
+	n = 8;
+	for (int i = 1; i <= 8; i++) {
+		for (int j = 1; j <= 8; j++) {
+			cin >> a[i][j];
+		}
+	}
+	
+	for (int i = 1; i <= 2 * n; i++) {
+		CC[i] = CP[i]=Y[i] = 1;
+	}
+
+	Tryy(1);
+	int max = 0;
+	for (int i = 0; i < idex; i++) {
+		if (diem[i] > max) {
+			max = diem[i];
+		}
+	}
+	cout << max;
+	return 0;
+	//cout << den;
+	
+}
