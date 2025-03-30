@@ -1,0 +1,55 @@
+//In ra các tập hợp có tổng bằng K
+#include<iostream>
+#include<vector>
+using namespace std;
+int a[100],  n, k;
+vector<int>b;
+
+int quick(int a[], int l, int r) {
+	int pivot = a[l];
+	int i = l - 1;
+	int j = r + 1;
+	while (1) {
+		do {
+			i++;
+		} while (a[i] < pivot);
+		do {
+			j--;
+		} while (a[j] > pivot);
+		if (i < j)swap(a[i], a[j]);
+		else { return j; }
+	}
+}
+void quicksort(int a[], int l, int r) {
+	if (l >= r)return;
+	else {
+		int p = quick(a, l, r);
+		quicksort(a, l, p);
+		quicksort(a, p + 1, r);
+	}
+}
+void incouple(int i, int sum) {
+	if (sum == k && !b.empty()) { // Tránh in ra tập hợp rỗng
+		cout << "{ ";
+		for (auto x : b) cout << x << " ";
+		cout << "}" << endl;
+	}
+
+	for (int j = i; j < n; j++) {
+		if (j > i && a[j] == a[j - 1]) continue; // Loại bỏ tập hợp trùng
+		b.push_back(a[j]);
+		incouple(j + 1, sum + a[j]);
+		b.pop_back(); // Backtracking
+	}
+}
+
+int main() {
+
+	cin >> n >> k;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	quicksort(a, 0, n - 1);
+	incouple(0,0);
+	return 0;
+}
