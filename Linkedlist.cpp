@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cassert>
 struct NODE
 {
@@ -220,22 +220,6 @@ void removeBefore(List *&L, int val)
     }
    
 }
-
-//void removeAfter(List *&L, int val)
-//{
-//    NODE* key = findvalue(val, L);
-//    if (key == NULL) return;
-//    NODE* keybf = key->p_next;
-//    if (keybf == NULL) return;
-//    key->p_next = keybf->p_next;
-//    if (keybf == L->p_tail) {
-//        L->p_tail = key;
-//    }
-//    delete keybf;
-//
-//    
-//}
-
 void removeAfter(List*& L, int val)
 {
     if (L == nullptr || L->p_head == nullptr) return;
@@ -252,18 +236,6 @@ void removeAfter(List*& L, int val)
 
     delete keybf;
 }
-//NODE* findK(List*& L, int pos) {
-//    int count = 0;
-//    NODE* temp = L->p_head;
-//    while (temp->p_next != NULL) {
-//        if (count == pos) {
-//            return temp;
-//        }
-//        count++;
-//        temp = temp->p_next;
-//    }
-//    return NULL;
-//}
 NODE* findK(List* L, int k) {
     NODE* cur = (L != NULL) ? L->p_head : NULL;
     int i = 0;
@@ -303,32 +275,6 @@ bool addPos(List*& L, int data, int pos) {
 
     return true;
 }
-
-
-//bool addPos(List *&L, int data, int pos)
-//{
-//    NODE* Key = createNode(data);
-//    if (Key == NULL) return false;
-//    if (pos == 0) {
-//        Key->p_next = L->p_head;
-//        L->p_head = Key;
-//        if (L->p_tail == NULL) {
-//            L->p_tail = Key;
-//        }
-//        return true;
-//    }
-//    NODE* bfpos = findK(L, pos - 1);
-//    if (bfpos == NULL) {
-//        delete Key;
-//        return false;
-//  }
-//    Key->p_next = bfpos->p_next;
-//    bfpos->p_next = Key;
-//    if (L->p_tail == Key) {
-//        L->p_tail = Key;
-//    }
-//    return true;
-//}
 
 
 
@@ -430,22 +376,6 @@ int countElements(List *L)
     return count;
 }
 
-//List *reverseList(List *L)
-//{
-//    if (L == NULL || L->p_head == NULL) return L;
-//    NODE* prev = NULL;
-//    NODE* cur = L->p_head;
-//    NODE* next = NULL;
-//    L->p_tail = L->p_head;
-//    while (cur != NULL) {
-//        next = cur->p_next;
-//        cur->p_next = prev;
-//        prev = cur;
-//        cur = next;
-//    }
-//    L->p_head = prev;
-//    return L;
-//}
 
 List* reverseList(List* L) {
     List* reversedList = new List();
@@ -454,24 +384,13 @@ List* reverseList(List* L) {
 
     NODE* current = L->p_head;
     while (current != nullptr) {
-        NODE* newNode = new NODE;
-        newNode->key = current->key;
-        newNode->p_next = nullptr;
-
-        if (reversedList->p_head == nullptr) {
-            reversedList->p_head = newNode;
-            reversedList->p_tail = newNode;
-        }
-        else {
-            newNode->p_next = reversedList->p_head;
-            reversedList->p_head = newNode;
-        }
-
+        addHead(reversedList, current->key);
         current = current->p_next;
     }
 
     return reversedList;
 }
+
 void removeDuplicate(List*& L)
 {
     if (L == NULL || L->p_head == NULL)return;
@@ -803,62 +722,51 @@ int main()
     freeList(emptyList15);
     std::cout << "Passed" << std::endl;
 
-    //// Test case 16: reverseList /////////////////////////////////////////////////////////
-  
-    //// Test case 1
-    //int arr16[5] = {590, 600, 610, 620, 630};
-    //List *list16 = createListFromArray(arr16, 5);
-    //List *reversedList16 = reverseList(list16);
-    //int expectedArr16[5] = {630, 620, 610, 600, 590};
-    //List *expectedList16 = createListFromArray(expectedArr16, 5);
-    //assert(areListsEqual(reversedList16, expectedList16));
-    //// Test case 2
-    //int arr16_2[3] = {640, 650, 660};
-    //List *list16_2 = createListFromArray(arr16_2, 3);
-    //List *reversedList16_2 = reverseList(list16_2);
-    //int expectedArr16_2[3] = {660, 650, 640};
-    //List *expectedList16_2 = createListFromArray(expectedArr16_2, 3);
-    //assert(areListsEqual(reversedList16_2, expectedList16_2));
-    //// Test case 3
-    //int arr16_3[1] = {670};
-    //List *list16_3 = createListFromArray(arr16_3, 1);
-    //List *reversedList16_3 = reverseList(list16_3);
-    //int expectedArr16_3[1] = {670};
-    //List *expectedList16_3 = createListFromArray(expectedArr16_3, 1);
-    //assert(areListsEqual(reversedList16_3, expectedList16_3));
-    //// Test case 4
-    //List *emptyList16 = new List();
-    //List *reversedList16_4 = reverseList(emptyList16);
-    //assert(reversedList16_4->p_head == nullptr && reversedList16_4->p_tail == nullptr);
-    //// free memory
-    //freeList(expectedList16);
-    //freeList(expectedList16_2);
-    //freeList(expectedList16_3);
-    //freeList(reversedList16);
-    //freeList(reversedList16_2);
-    //freeList(reversedList16_3);
-    //freeList(reversedList16_4);
-    //freeList(list16);
-    //freeList(list16_2);
-    //freeList(list16_3);
-    //freeList(emptyList16);
-    //std::cout << "Passed" << std::endl;
+    // Test case 16: reverseList /////////////////////////////////////////////////////////
+    std::cout << "Test reverseList: ";
+      // Test case 1
+    int arr16[5] = { 590, 600, 610, 620, 630 };
+    List* list16 = createListFromArray(arr16, 5);
+    List* reversedList16 = reverseList(list16);
+    int expectedArr16[5] = { 630, 620, 610, 600, 590 };
+    List* expectedList16 = createListFromArray(expectedArr16, 5);
+    assert(areListsEqual(reversedList16, expectedList16));
+    // Test case 2
+    int arr16_2[3] = { 640, 650, 660 };
+    List* list16_2 = createListFromArray(arr16_2, 3);
+    List* reversedList16_2 = reverseList(list16_2);
+    int expectedArr16_2[3] = { 660, 650, 640 };
+    List* expectedList16_2 = createListFromArray(expectedArr16_2, 3);
+    assert(areListsEqual(reversedList16_2, expectedList16_2));
+    // Test case 3
+    int arr16_3[1] = { 670 };
+    List* list16_3 = createListFromArray(arr16_3, 1);
+    List* reversedList16_3 = reverseList(list16_3);
+    int expectedArr16_3[1] = { 670 };
+    List* expectedList16_3 = createListFromArray(expectedArr16_3, 1);
+    assert(areListsEqual(reversedList16_3, expectedList16_3));
+    // Test case 4
+    List* emptyList16 = new List();
+    List* reversedList16_4 = reverseList(emptyList16);
+    assert(reversedList16_4->p_head == nullptr && reversedList16_4->p_tail == nullptr);
+    // free memory
+    freeList(expectedList16);
+    freeList(expectedList16_2);
+    freeList(expectedList16_3);
+    freeList(reversedList16);
+    freeList(reversedList16_2);
+    freeList(reversedList16_3);
+    freeList(reversedList16_4);
+    freeList(list16);
+    freeList(list16_2);
+    freeList(list16_3);
+    freeList(emptyList16);
+    std::cout << "Passed" << std::endl;
 
 
 
     
-    std::cout << "Test reverseList: ";
-    int arr16[4] = { 580, 590, 600, 610 };
-    List* list16 = createListFromArray(arr16, 4);
-    List* reversedList = reverseList(list16);  // reversedList là một danh sách mới
-    int expectedArr16[4] = { 610, 600, 590, 580 };
-    List* expectedList16 = createListFromArray(expectedArr16, 4);
-    assert(areListsEqual(reversedList, expectedList16));
-    std::cout << "Passed" << std::endl;
-    freeList(list16);          // Giải phóng danh sách gốc
-    freeList(reversedList);    // Giải phóng danh sách đảo ngược
-    freeList(expectedList16);  // Giải phóng danh sách kỳ vọng
-
+  
     // Test case 17: removeDuplicate /////////////////////////////////////////////////////////
     std::cout << "Test removeDuplicate: ";
     // Test case 1
