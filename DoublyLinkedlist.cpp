@@ -1,3 +1,6 @@
+
+
+
 #include <iostream>
 #include <cassert>
 using namespace std;
@@ -11,13 +14,6 @@ struct d_NODE {
 struct d_List {
     d_NODE* pHead;
     d_NODE* pTail;
-};
-struct d_List {
-    d_NODE* p_head;
-    d_NODE* p_tail;
-
-    d_List(d_NODE* head = nullptr, d_NODE* tail = nullptr)
-        : p_head(head), p_tail(tail) {}
 };
 // --- Define function prototypes ---
 d_NODE* createNode(int data);
@@ -40,6 +36,7 @@ bool removeElement(d_List*& L, int key);
 void removeDuplicate(d_List*& L);
 
 // function to create a list from an array
+
 d_List* createListFromArray(int arr[], int n) {
     d_List* newList = new d_List;
     newList->pHead = newList->pTail = nullptr;
@@ -49,6 +46,7 @@ d_List* createListFromArray(int arr[], int n) {
     return newList;
 }
 // function to compare two lists
+
 bool areListsEqual(d_List* list1, d_List* list2) {
     d_NODE* current1 = list1 ? list1->pHead : nullptr;
     d_NODE* current2 = list2 ? list2->pHead : nullptr;
@@ -61,12 +59,14 @@ bool areListsEqual(d_List* list1, d_List* list2) {
     return (current1 == nullptr && current2 == nullptr);
 }
 // function to free the memory of a list
+
 void freeList(d_List* L) {
     if (L) {
         removeAll(L);
         delete L;
     }
 }
+
 d_NODE* createNode(int data) {
     d_NODE* newNode = new d_NODE;
     newNode->key = data;
@@ -221,45 +221,19 @@ bool addPos(d_List*& L, int data, int pos) {
     return true;
 }
 
-//void removePos(d_List*& L, int pos) {
-//    if (!L || !L->pHead || pos < 0) return;
-//
-//    if (pos == 0) {
-//        removeHead(L);
-//        return;
-//    }
-//
-//    d_NODE* current = L->pHead;
-//    int count = 0;
-//    while (current && count < pos) {
-//        current = current->pNext;
-//        count++;
-//    }
-//
-//    if (!current) return;
-//
-//    if (current == L->pTail) {
-//        removeTail(L);
-//        return;
-//    }
-//
-//    current->pPrev->pNext = current->pNext;
-//    current->pNext->pPrev = current->pPrev;
-//    delete current;
-//}
 void removePos(d_List*& L, int data, int pos) {
     if (!L || !L->pHead || pos < 0) return;
 
     d_NODE* current = L->pHead;
     int count = 0;
 
-    // Find the node at the specified position
+   
     while (current && count < pos) {
         current = current->pNext;
         count++;
     }
 
-    // If node found at position and data matches
+   
     if (current && current->key == data) {
         if (current == L->pHead) {
             removeHead(L);
@@ -343,33 +317,7 @@ int countElements(d_List* L) {
     return count;
 }
 
-//d_List* reverseList(d_List* L) {
-//    if (!L || !L->pHead) return nullptr;
-//
-//    d_List* newList = new d_List;
-//    newList->pHead = newList->pTail = nullptr;
-//    d_NODE* current = L->pHead;
-//    while (current) {
-//        addHead(newList, current->key);
-//        current = current->pNext;
-//    }
-//    return newList;
-//}
-//d_List* reverseList(d_List* L) {
-//    if (!L || !L->pHead) return nullptr;
-//
-//    d_List* reversedList = new d_List();
-//    reversedList->pHead = nullptr;
-//    reversedList->pTail = nullptr;
-//
-//    d_NODE* current = L->pHead;
-//    while (current != nullptr) {
-//        addHead(reversedList, current->key);
-//        current = current->pNext;
-//    }
-//
-//    return reversedList;
-//}
+
 d_List* reverseList(d_List* L) {
     // Kiểm tra null và list rỗng
     if (!L || !L->pHead) {
@@ -454,8 +402,6 @@ bool removeElement(d_List*& L, int key) {
     }
     return found;
 }
-
-
 
 
 
