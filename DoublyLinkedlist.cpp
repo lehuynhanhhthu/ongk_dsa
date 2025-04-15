@@ -1,6 +1,3 @@
-
-
-
 #include <iostream>
 #include <cassert>
 using namespace std;
@@ -15,7 +12,61 @@ struct d_List {
     d_NODE* pHead;
     d_NODE* pTail;
 };
+struct d_List {
+    d_NODE* p_head;
+    d_NODE* p_tail;
 
+    d_List(d_NODE* head = nullptr, d_NODE* tail = nullptr)
+        : p_head(head), p_tail(tail) {}
+};
+// --- Define function prototypes ---
+d_NODE* createNode(int data);
+d_List* createList(d_NODE* p_node);
+bool addHead(d_List*& L, int data);
+bool addTail(d_List*& L, int data);
+bool addPos(d_List*& L, int data, int pos);
+bool addBefore(d_List*& L, int data, int val);
+bool addAfter(d_List*& L, int data, int val);
+bool removeHead(d_List*& L);
+void removeTail(d_List*& L);
+void removeAll(d_List*& L);
+void removeBefore(d_List*& L, int val);
+void removeAfter(d_List*& L, int val);
+void removePos(d_List*& L, int data, int pos);
+void printList(d_List* L);
+int countElements(d_List* L);
+d_List* reverseList(d_List* L);
+bool removeElement(d_List*& L, int key);
+void removeDuplicate(d_List*& L);
+
+// function to create a list from an array
+d_List* createListFromArray(int arr[], int n) {
+    d_List* newList = new d_List;
+    newList->pHead = newList->pTail = nullptr;
+    for (int i = 0; i < n; ++i) {
+        addTail(newList, arr[i]);
+    }
+    return newList;
+}
+// function to compare two lists
+bool areListsEqual(d_List* list1, d_List* list2) {
+    d_NODE* current1 = list1 ? list1->pHead : nullptr;
+    d_NODE* current2 = list2 ? list2->pHead : nullptr;
+
+    while (current1 && current2) {
+        if (current1->key != current2->key) return false;
+        current1 = current1->pNext;
+        current2 = current2->pNext;
+    }
+    return (current1 == nullptr && current2 == nullptr);
+}
+// function to free the memory of a list
+void freeList(d_List* L) {
+    if (L) {
+        removeAll(L);
+        delete L;
+    }
+}
 d_NODE* createNode(int data) {
     d_NODE* newNode = new d_NODE;
     newNode->key = data;
@@ -404,33 +455,10 @@ bool removeElement(d_List*& L, int key) {
     return found;
 }
 
-d_List* createListFromArray(int arr[], int n) {
-    d_List* newList = new d_List;
-    newList->pHead = newList->pTail = nullptr;
-    for (int i = 0; i < n; ++i) {
-        addTail(newList, arr[i]);
-    }
-    return newList;
-}
 
-bool areListsEqual(d_List* list1, d_List* list2) {
-    d_NODE* current1 = list1 ? list1->pHead : nullptr;
-    d_NODE* current2 = list2 ? list2->pHead : nullptr;
 
-    while (current1 && current2) {
-        if (current1->key != current2->key) return false;
-        current1 = current1->pNext;
-        current2 = current2->pNext;
-    }
-    return (current1 == nullptr && current2 == nullptr);
-}
 
-void freeList(d_List* L) {
-    if (L) {
-        removeAll(L);
-        delete L;
-    }
-}
+
 
 int main() {
     std::cout << "--- Begin running test cases ---" << std::endl;
