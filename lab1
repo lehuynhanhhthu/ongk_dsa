@@ -1,0 +1,356 @@
+#include <iostream>
+#include <fstream>
+#include <stack>
+#include <vector>
+#include <sstream>
+#include <cctype>
+#include <algorithm>
+
+using namespace std;
+
+string deleteleading0(const string& numb) {
+    if (numb.empty()) return "0";
+    if (numb.size() == 1)return numb;
+    int pos = 0;
+    while (pos < numb.size() && numb[pos] == '0') {
+        pos++;
+    }
+    if (pos == numb.size())return "0";
+    return numb.substr(pos);
+
+}
+/*  int i = 0;
+    while (i < numb.size() - 1 && numb[i] == '0') i++;
+    return numb.substr(i);*/
+string add(string a, string b) {
+    string kq = "";
+    int remb = 0;
+   
+    int dig_a, dig_b, dig_sum;
+    int i = a.size() - 1, j = b.size() - 1;
+    while (i >= 0 || j >= 0 || remb > 0) {
+        if (i>=0) {
+            dig_a = a[i] - '0';
+        }
+        else {
+            dig_a = 0;// het so them 0
+        }
+        if (j >=0) {
+            dig_b = b[j] - '0';
+        }
+        else {
+            dig_b = 0;// het so them 0
+        }
+        dig_sum = dig_a + dig_b + remb;
+        kq += dig_sum % 10 + '0';
+        remb = dig_sum / 10;
+        i--;
+        j--;
+
+    }
+    reverse(kq.begin(), kq.end());
+    return deleteleading0(kq);
+
+
+}
+bool isSmaller(string a, string b) {
+    
+    a = deleteleading0(a);
+    b = deleteleading0(b);
+    if (a.size() != b.size()) return a.size() < b.size();// khac size thi ngan hon thi nho hon
+    return a < b;//cung size so sanh tung ki tu
+}
+string subtract(string a, string b){
+    if (a[0] == '-' && b[0] != '-') return "-" + add(a.substr(1), b);
+    if (a[0] != '-' && b[0] == '-') return add(a, b.substr(1));
+    if (a[0] == '-' && b[0] == '-') return subtract(b.substr(1), a.substr(1));
+if (isSmaller(a, b)) return "-" + subtract(b, a);
+   string result = "";
+   int carry = 0;
+   int n1 = a.size(), n2 = b.size();
+   reverse(a.begin(), a.end());
+   reverse(b.begin(), b.end());
+
+   for (int i = 0; i < n1; ++i) {
+       int digit1 = a[i] - '0';
+       int digit2 = i < n2 ? b[i] - '0' : 0;
+       int sub = digit1 - digit2 - carry;
+       if (sub < 0) {
+           sub += 10;
+           carry = 1;
+       }
+       else carry = 0;
+       result += sub + '0';
+   }
+   reverse(result.begin(), result.end());
+   return deleteleading0(result);
+
+}
+
+string multiply(string a, string b) {
+    if (a == "0" || b == "0") return "0";
+    vector<int> result(a.size() + b.size(),0);
+    for (int i = a.size()-1; i >=0; i--) {
+        for (int j = b.size()-1; j >=0; j--) {
+            result[i + j+1] += (a[i] - '0') * (b[j] - '0');
+        }
+    }
+    for (int k = result.size()-1; k >0; k--) {
+        int carry = result[k] / 10;
+        result[k] %= 10;
+        result[k - 1] += carry;
+    }
+    string kq = "";
+    for (int h = 0; h < result.size(); h++) {
+        kq += result[h] + '0';
+    }
+    return deleteleading0(kq);
+}
+/*string result = "";
+   int carry = 0, sum;
+   int n1 = a.size(), n2 = b.size();
+   reverse(a.begin(), a.end());
+   reverse(b.begin(), b.end());
+
+   for (int i = 0; i < max(n1, n2); ++i) {
+       int digit1 = i < n1 ? a[i] - '0' : 0;
+       int digit2 = i < n2 ? b[i] - '0' : 0;
+       sum = digit1 + digit2 + carry;
+       carry = sum / 10;
+       result += (sum % 10) + '0';
+   }
+   if (carry) result += carry + '0';
+   reverse(result.begin(), result.end());
+   return deleteleading0(result);*/
+
+/*a = deleteleading0(a);
+    b = deleteleading0(b);
+    if (a.size() != b.size()) return a.size() < b.size();
+    return a < b;*/ 
+
+// string subtract(string a, string b) {
+//     if (a[0] == '-' && b[0] != '-') return "-" + add(a.substr(1), b);
+//     if (a[0] != '-' && b[0] == '-') return add(a, b.substr(1));
+//     if (a[0] == '-' && b[0] == '-') return subtract(b.substr(1), a.substr(1));
+//     if (isSmaller(a, b) == true) return "-" + subtract(b, a);
+//     string kq = "";
+//     int i = a.size() - 1;
+//     int j = b.size() - 1;
+//     int  remb = 0;
+//     int dig_a, dig_b,dig_sub;
+//     while (i >= 0) {
+//         if (i >= 0) {
+//             dig_a = a[i] - '0';
+//         }
+//         if (j >= 0) {
+//             dig_b = b[j] - '0';
+//         }
+//         else {
+//             dig_b = 0;
+//         }
+//         dig_sub = dig_a - dig_b - remb;
+//         if (dig_sub < 0) {
+//             dig_sub += 10;
+//             remb = 1;
+//         }
+//         else {
+//             remb = 0;
+//         }
+//         kq += dig_sub + '0';
+//         i--; j--;
+        
+
+//     }
+//     reverse(kq.begin(), kq.end());
+//     return deleteleading0(kq);
+
+// }
+
+/*  int n = a.size(), m = b.size();
+   vector<int> res(n + m, 0);
+
+   reverse(a.begin(), a.end());
+   reverse(b.begin(), b.end());
+
+   for (int i = 0; i < n; ++i)
+       for (int j = 0; j < m; ++j)
+           res[i + j] += (a[i] - '0') * (b[j] - '0');
+
+   for (int i = 0; i < res.size(); ++i) {
+       if (res[i] >= 10) {
+           if (i + 1 < res.size())
+               res[i + 1] += res[i] / 10;
+           res[i] %= 10;
+       }
+   }
+
+   while (res.size() > 1 && res.back() == 0) res.pop_back();
+
+   string result;
+   for (int i = res.size() - 1; i >= 0; --i)
+       result += res[i] + '0';
+
+   return result;*/
+
+string divide(string a, string b) {
+   if(deleteleading0(b)=="0")return "DIVIDE_BY_ZERO";
+   string kq = "";
+   string cl = "";
+   for (char c : a) {
+       cl += c;
+       cl = deleteleading0(cl);
+       int count = 0;
+       while (!isSmaller(cl, b)) {
+           cl=subtract(cl,b);
+           count++;
+
+       }
+       kq += count + '0';
+   }
+   return deleteleading0(kq);
+}
+/* if (deleteleading0(b) == "0") return "DIVIDE_BY_ZERO";
+
+    string result, remainder;
+    for (char digit : a) {
+        remainder += digit;
+        remainder = deleteleading0(remainder);
+        int q = 0;
+        while (!isSmaller(remainder, b)) {
+            remainder = subtract(remainder, b);
+            q++;
+        }
+        result += (q + '0');
+    }
+    return deleteleading0(result);*/
+
+// ------------------- BI?U TH?C VÀ H?U T? -------------------
+
+bool isOperator(char c) {
+    return c == '+' || c == '-' || c == '*' || c == '/';
+}
+
+int precedence(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    return 0;
+}
+
+vector<string> tokenize(const string& expr) {
+    vector<string> tokens;
+    int i = 0, n = expr.length();
+    while (i < n) {
+        if (isspace(expr[i])) {
+            i++;
+        }
+        else if (isdigit(expr[i])) {
+            string numb;
+            while (i < n && isdigit(expr[i])) numb += expr[i++];
+            tokens.push_back(numb);
+        }
+        else if (isOperator(expr[i]) || expr[i] == '(' || expr[i] == ')') {
+            tokens.push_back(string(1, expr[i]));
+            i++;
+        }
+        else {
+            tokens.push_back("INVALID");
+            break;
+        }
+    }
+    return tokens;
+}
+
+vector<string> infixToPostfix(const vector<string>& tokens) {
+    vector<string> output;
+    stack<string> opStack;
+
+    for (const string& token : tokens) {
+        if (isdigit(token[0])) {
+            output.push_back(token);
+        }
+        else if (token == "(") {
+            opStack.push(token);
+        }
+        else if (token == ")") {
+            while (!opStack.empty() && opStack.top() != "(") {
+                output.push_back(opStack.top());
+                opStack.pop();
+            }
+            if (!opStack.empty()) opStack.pop();
+        }
+        else if (isOperator(token[0])) {
+            while (!opStack.empty() && precedence(opStack.top()[0]) >= precedence(token[0])) {
+                output.push_back(opStack.top());
+                opStack.pop();
+            }
+            opStack.push(token);
+        }
+    }
+
+    while (!opStack.empty()) {
+        output.push_back(opStack.top());
+        opStack.pop();
+    }
+
+    return output;
+}
+
+string evalPostfix(const vector<string>& tokens) {
+    stack<string> s;
+
+    for (const string& token : tokens) {
+        if (isdigit(token[0])) {
+            s.push(token);
+        }
+        else if (isOperator(token[0])) {
+            if (s.size() < 2) return "ERROR";
+            string b = s.top(); s.pop();
+            string a = s.top(); s.pop();
+            string res;
+
+            if (token == "+") res = add(a, b);
+            else if (token == "-") res = subtract(a, b);
+            else if (token == "*") res = multiply(a, b);
+            else if (token == "/") res = divide(a, b);
+
+            if (res == "DIVIDE_BY_ZERO") return "ERROR";
+            s.push(res);
+        }
+    }
+
+    return s.size() == 1 ? s.top() : "ERROR";
+}
+
+// ------------------- HÀM MAIN -------------------
+
+int main() {
+    ifstream infile("tests.txt");
+    ofstream outfile("output_24120226.txt");
+
+    if (!infile) {
+        cerr << "Failed to open input file: tests.txt\n";
+        return 1;
+    }
+
+    if (!outfile) {
+        cerr << "Failed to open output file: output_24120226.txt\n";
+        return 1;
+    }
+
+    string line;
+    while (getline(infile, line)) {
+        vector<string> tokens = tokenize(line);
+        if (tokens.empty() || tokens[0] == "INVALID") {
+            cout << "ERROR\n";
+            outfile << "ERROR\n";
+            continue;
+        }
+
+        vector<string> postfix = infixToPostfix(tokens);
+        string result = evalPostfix(postfix);
+        cout << result << "\n";
+        outfile << result << "\n";
+    }
+
+    return 0;
+}
